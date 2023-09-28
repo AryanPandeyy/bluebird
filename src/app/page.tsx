@@ -1,16 +1,17 @@
 "use client";
-import { GraphQLClient, gql } from "graphql-request";
+import { GraphQLClient } from "graphql-request";
+import { graphql } from "../../gql";
+import { CreateUserMutationVariables } from "../../gql/graphql";
 export default function Home() {
   const endpoint = `http://localhost:4000/graphql`;
   const graphQLClient = new GraphQLClient(endpoint);
 
-  const mutation = gql`
+  const userMut = graphql(`
     mutation createUser($message: createUserInput) {
       createUser(message: $message)
     }
-  `;
-
-  const variables = {
+  `);
+  const variables: CreateUserMutationVariables = {
     message: {
       email: `graph`,
       name: `graph`,
@@ -19,7 +20,7 @@ export default function Home() {
   };
   const handleSubmit = async (): Promise<void> => {
     const data = await graphQLClient
-      .request(mutation, variables)
+      .request(userMut, variables)
       .then((data) => console.log(data))
       .catch((e) => console.log("ERROR: in submitting ", e));
   };
