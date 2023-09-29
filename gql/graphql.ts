@@ -18,7 +18,13 @@ export type Scalars = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createTweet?: Maybe<Scalars['ID']['output']>;
   createUser?: Maybe<Scalars['ID']['output']>;
+};
+
+
+export type MutationCreateTweetArgs = {
+  message?: InputMaybe<CreateTweetInput>;
 };
 
 
@@ -28,14 +34,31 @@ export type MutationCreateUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  queryTweets?: Maybe<Array<Maybe<Tweet>>>;
   queryUser?: Maybe<Array<Maybe<User>>>;
+};
+
+export type Tweet = {
+  __typename?: 'Tweet';
+  author?: Maybe<User>;
+  content?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
 };
 
 export type User = {
   __typename?: 'User';
   email?: Maybe<Scalars['String']['output']>;
+  followers?: Maybe<Array<Maybe<User>>>;
+  following?: Maybe<Array<Maybe<User>>>;
+  id: Scalars['ID']['output'];
   name?: Maybe<Scalars['String']['output']>;
   password?: Maybe<Scalars['String']['output']>;
+  tweet?: Maybe<Array<Maybe<Tweet>>>;
+};
+
+export type CreateTweetInput = {
+  authorId?: InputMaybe<Scalars['String']['input']>;
+  content?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CreateUserInput = {
@@ -51,5 +74,11 @@ export type CreateUserMutationVariables = Exact<{
 
 export type CreateUserMutation = { __typename?: 'Mutation', createUser?: string | null };
 
+export type ExampleQueryQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ExampleQueryQuery = { __typename?: 'Query', queryUser?: Array<{ __typename?: 'User', email?: string | null } | null> | null };
+
 
 export const CreateUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"message"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"createUserInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"message"},"value":{"kind":"Variable","name":{"kind":"Name","value":"message"}}}]}]}}]} as unknown as DocumentNode<CreateUserMutation, CreateUserMutationVariables>;
+export const ExampleQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ExampleQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"queryUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]} as unknown as DocumentNode<ExampleQueryQuery, ExampleQueryQueryVariables>;
