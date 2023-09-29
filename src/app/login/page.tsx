@@ -2,7 +2,8 @@
 import { useState } from "react";
 import graphQLClient from "../../../gclient";
 import { CreateUserMutationVariables } from "../../../gql/graphql";
-import { graphql } from "../../../gql/gql";
+import { graphql } from "../../../gql";
+import { gql } from "graphql-request";
 
 export default function Login() {
   const userMut = graphql(`
@@ -13,6 +14,14 @@ export default function Login() {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+
+  const userQuery = gql`
+    query ExampleQuery {
+      queryUser {
+        email
+      }
+    }
+  `;
   const handleSubmit = () => {
     const variables: CreateUserMutationVariables = {
       message: {
@@ -22,7 +31,8 @@ export default function Login() {
       },
     };
     const data = graphQLClient
-      .request(userMut, variables)
+      .request(userQuery)
+      .then((data) => console.log(data))
       .catch((e) => console.log(e));
   };
   return (
