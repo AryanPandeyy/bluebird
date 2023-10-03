@@ -16,20 +16,33 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type AuthPayLoad = {
+  __typename?: 'AuthPayLoad';
+  token?: Maybe<Scalars['String']['output']>;
+  user?: Maybe<User>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createTweet?: Maybe<Scalars['ID']['output']>;
-  createUser?: Maybe<Scalars['ID']['output']>;
+  createUser?: Maybe<AuthPayLoad>;
+  signInUser?: Maybe<AuthPayLoad>;
 };
 
 
 export type MutationCreateTweetArgs = {
-  message?: InputMaybe<CreateTweetInput>;
+  content: Scalars['String']['input'];
 };
 
 
 export type MutationCreateUserArgs = {
   message?: InputMaybe<CreateUserInput>;
+};
+
+
+export type MutationSignInUserArgs = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 export type Query = {
@@ -57,28 +70,36 @@ export type User = {
 };
 
 export type CreateTweetInput = {
-  authorId?: InputMaybe<Scalars['String']['input']>;
   content?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CreateUserInput = {
-  email?: InputMaybe<Scalars['String']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  password?: InputMaybe<Scalars['String']['input']>;
+  email: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
+
+export type QueryTweetQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type QueryTweetQuery = { __typename?: 'Query', queryTweets?: Array<{ __typename?: 'Tweet', content?: string | null, author?: { __typename?: 'User', email?: string | null } | null } | null> | null };
+
+export type SignInUserMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+}>;
+
+
+export type SignInUserMutation = { __typename?: 'Mutation', signInUser?: { __typename?: 'AuthPayLoad', token?: string | null, user?: { __typename?: 'User', email?: string | null } | null } | null };
 
 export type CreateUserMutationVariables = Exact<{
   message?: InputMaybe<CreateUserInput>;
 }>;
 
 
-export type CreateUserMutation = { __typename?: 'Mutation', createUser?: string | null };
-
-export type ExampleQueryQueryVariables = Exact<{ [key: string]: never; }>;
+export type CreateUserMutation = { __typename?: 'Mutation', createUser?: { __typename?: 'AuthPayLoad', token?: string | null, user?: { __typename?: 'User', email?: string | null } | null } | null };
 
 
-export type ExampleQueryQuery = { __typename?: 'Query', queryUser?: Array<{ __typename?: 'User', email?: string | null } | null> | null };
-
-
-export const CreateUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"message"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"createUserInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"message"},"value":{"kind":"Variable","name":{"kind":"Name","value":"message"}}}]}]}}]} as unknown as DocumentNode<CreateUserMutation, CreateUserMutationVariables>;
-export const ExampleQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ExampleQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"queryUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]} as unknown as DocumentNode<ExampleQueryQuery, ExampleQueryQueryVariables>;
+export const QueryTweetDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"queryTweet"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"queryTweets"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"author"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]}}]} as unknown as DocumentNode<QueryTweetQuery, QueryTweetQueryVariables>;
+export const SignInUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"signInUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"password"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"signInUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}},{"kind":"Argument","name":{"kind":"Name","value":"password"},"value":{"kind":"Variable","name":{"kind":"Name","value":"password"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"token"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]}}]} as unknown as DocumentNode<SignInUserMutation, SignInUserMutationVariables>;
+export const CreateUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"message"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"createUserInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"message"},"value":{"kind":"Variable","name":{"kind":"Name","value":"message"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"token"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]}}]} as unknown as DocumentNode<CreateUserMutation, CreateUserMutationVariables>;

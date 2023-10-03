@@ -13,8 +13,9 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n    mutation createUser($message: createUserInput) {\n      createUser(message: $message)\n    }\n  ": types.CreateUserDocument,
-    "\n    query ExampleQuery {\n      queryUser {\n        email\n      }\n    }\n  ": types.ExampleQueryDocument,
+    "\n    query queryTweet {\n      queryTweets {\n        content\n        author {\n          email\n        }\n      }\n    }\n  ": types.QueryTweetDocument,
+    "\n    mutation signInUser($email: String!, $password: String!) {\n      signInUser(email: $email, password: $password) {\n        token\n        user {\n          email\n        }\n      }\n    }\n  ": types.SignInUserDocument,
+    "\n    mutation createUser($message: createUserInput) {\n      createUser(message: $message) {\n        token\n        user {\n          email\n        }\n      }\n    }\n  ": types.CreateUserDocument,
 };
 
 /**
@@ -34,11 +35,15 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    mutation createUser($message: createUserInput) {\n      createUser(message: $message)\n    }\n  "): (typeof documents)["\n    mutation createUser($message: createUserInput) {\n      createUser(message: $message)\n    }\n  "];
+export function graphql(source: "\n    query queryTweet {\n      queryTweets {\n        content\n        author {\n          email\n        }\n      }\n    }\n  "): (typeof documents)["\n    query queryTweet {\n      queryTweets {\n        content\n        author {\n          email\n        }\n      }\n    }\n  "];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    query ExampleQuery {\n      queryUser {\n        email\n      }\n    }\n  "): (typeof documents)["\n    query ExampleQuery {\n      queryUser {\n        email\n      }\n    }\n  "];
+export function graphql(source: "\n    mutation signInUser($email: String!, $password: String!) {\n      signInUser(email: $email, password: $password) {\n        token\n        user {\n          email\n        }\n      }\n    }\n  "): (typeof documents)["\n    mutation signInUser($email: String!, $password: String!) {\n      signInUser(email: $email, password: $password) {\n        token\n        user {\n          email\n        }\n      }\n    }\n  "];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    mutation createUser($message: createUserInput) {\n      createUser(message: $message) {\n        token\n        user {\n          email\n        }\n      }\n    }\n  "): (typeof documents)["\n    mutation createUser($message: createUserInput) {\n      createUser(message: $message) {\n        token\n        user {\n          email\n        }\n      }\n    }\n  "];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

@@ -1,37 +1,18 @@
-"use client";
-import  request, {  gql } from "graphql-request";
-import { graphql } from "../../gql";
-import { CreateUserMutationVariables } from "../../gql/graphql";
-import graphQLClient from "../../gclient";
 export default function Home() {
-  const userMut = graphql(`
-    mutation createUser($message: createUserInput) {
-      createUser(message: $message)
-    }
-  `);
-  const userQuery = gql`
-    query ExampleQuery {
-      queryUser {
-        email
-      }
-    }
-  `;
-  const variables: CreateUserMutationVariables = {
-    message: {
-      email: `mar`,
-      name: `aryansda`,
-      password: `angraph`,
-    },
-  };
-  const handleSubmit = async (): Promise<void> => {
-    const data = await graphQLClient
-      .request(userMut, variables)
-      .then((data) => console.log(data))
-      .catch((e) => console.log("ERROR: in submitting ", e));
-  };
+  // bluebird !
+  // Blue your thoughts in public
+  // blah
+  // blah
   return (
-    <>
-      <button onClick={handleSubmit}>Submit</button>
-    </>
+    <div className="flex flex-col justify-center px-6 py-12">
+      <div className="mx-auto">
+        <p className="text-center rounded-lg px-7 py-1 ring-1 ring-slate-300 bg-gray-100 inline">
+          BlueBird!
+        </p>
+        <h1 className="text-lg">
+          <span>Blue</span> your thoughts in public
+        </h1>
+      </div>
+    </div>
   );
 }
