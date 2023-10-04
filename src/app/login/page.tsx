@@ -27,7 +27,9 @@ export default function Login() {
   const handleSubmit = () => {
     const data = graphQLClient
       .request(LOGIN_USER, variables)
-      .then((content) => window.localStorage.setItem("key", content))
+      .then((content) =>
+        window.localStorage.setItem("key", content.signInUser.token),
+      )
       .catch((e) => console.log(e));
     push("/landing");
   };
