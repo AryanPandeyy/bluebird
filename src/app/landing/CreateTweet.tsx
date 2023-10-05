@@ -45,8 +45,17 @@ const CreateTweet = () => {
   return (
     <div>
       {userEmail && <p>{userEmail}</p>}
-      <input value={newTweet} onChange={(e) => setNewTweet(e.target.value)} />
-      <button onClick={handleSubmitTweet}>Tweet</button>
+      <input
+        value={newTweet}
+        onChange={(e) => setNewTweet(e.target.value)}
+        className="w-full p-2 rounded-sm ring-1 ring-gray-300 placeholder:text-gray-400 block"
+      />
+      <button
+        onClick={handleSubmitTweet}
+        className="mt-2 w-full rounded-sm ring-1 ring-gray-300 py-1.5 font-semibold hover:ring-teal-400"
+      >
+        Tweet
+      </button>
     </div>
   );
 };
