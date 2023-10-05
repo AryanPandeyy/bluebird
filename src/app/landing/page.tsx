@@ -19,13 +19,13 @@ export async function getData() {
     result,
   };
 }
-
 const Landing = async () => {
   const temp = await getData();
+
   return (
     <div className="flex-1 flex-wrap">
-      <CreateTweet />
       <div className="p-2 w-full flex flex-col">
+        <CreateTweet />
         <p>username</p>
         {temp.result.queryTweets?.map((item, i, arr) => (
           <div>
