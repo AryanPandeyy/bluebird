@@ -2,6 +2,7 @@
 import { gql } from "graphql-request";
 import { useState, useEffect } from "react";
 import graphQLClient from "../../../gclient";
+import Link from "next/link";
 
 async function getQuery() {
   const QUERY_TWEET = gql`
@@ -38,24 +39,32 @@ const CreateTweet = () => {
   };
 
   useEffect(() => {
-    const data = getQuery();
-    data.then((d) => setUserEmail(d.result.queryUserById.email));
+    getQuery().then((d) => setUserEmail(d.result.queryUserById.email));
   }, []);
 
   return (
-    <div>
+    <div className="p-2">
       {userEmail && <p>{userEmail}</p>}
       <input
         value={newTweet}
         onChange={(e) => setNewTweet(e.target.value)}
-        className="w-full p-2 rounded-sm ring-1 ring-gray-300 placeholder:text-gray-400 block"
+        className="p-1 mt-1 rounded-sm ring-1 ring-gray-300 placeholder:text-gray-400"
       />
       <button
         onClick={handleSubmitTweet}
-        className="mt-2 w-full rounded-sm ring-1 ring-gray-300 py-1.5 font-semibold hover:ring-teal-400"
+        className="mt-2 px-1.5 rounded-sm ring-1 ring-gray-300 py-1.5 font-semibold hover:ring-teal-400"
       >
         Tweet
       </button>
+      <Link
+        onClick={() => {
+          window.localStorage.clear();
+        }}
+        href="/"
+        className="m-2 px-1.5 rounded-sm ring-1 ring-gray-300 py-1.5 font-semibold hover:ring-teal-400"
+      >
+        LogOut
+      </Link>
     </div>
   );
 };
