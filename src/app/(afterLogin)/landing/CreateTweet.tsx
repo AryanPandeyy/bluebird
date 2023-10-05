@@ -1,11 +1,11 @@
 "use client";
 import { gql } from "graphql-request";
 import { useState, useEffect } from "react";
-import graphQLClient from "../../../gclient";
+import graphQLClient from "../../../../gclient";
 import Link from "next/link";
 
-async function getQuery() {
-  const QUERY_TWEET = gql`
+export async function getUserById() {
+  const QUERY_USER_ID = gql`
     query example {
       queryUserById {
         email
@@ -13,7 +13,7 @@ async function getQuery() {
       }
     }
   `;
-  const result = await graphQLClient.request(QUERY_TWEET);
+  const result = await graphQLClient.request(QUERY_USER_ID);
   console.log("RESULT", result);
   return {
     result,
@@ -39,16 +39,16 @@ const CreateTweet = () => {
   };
 
   useEffect(() => {
-    getQuery().then((d) => setUserEmail(d.result.queryUserById.email));
+    getUserById().then((d) => setUserEmail(d.result.queryUserById.email));
   }, []);
 
   return (
-    <div className="p-2">
+    <div className="p-2 fixed">
       {userEmail && <p>{userEmail}</p>}
       <input
         value={newTweet}
         onChange={(e) => setNewTweet(e.target.value)}
-        className="p-1 mt-1 rounded-sm ring-1 ring-gray-300 placeholder:text-gray-400"
+        className="p-1 mt-1 rounded-sm ring-1 ring-gray-300 placeholder:text-gray-400 block"
       />
       <button
         onClick={handleSubmitTweet}
