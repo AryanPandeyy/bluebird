@@ -2,6 +2,12 @@
 
 import { gql } from "graphql-request";
 import graphQLClient from "../../../../gclient";
+import { useState, useEffect } from "react";
+
+interface content {
+  email: string;
+  tweet: Array<{ content: string }>;
+}
 
 export async function getUserById(id) {
   const QUERY_USER_ID = gql`
@@ -24,13 +30,24 @@ export async function getUserById(id) {
   };
 }
 const Profile = ({ searchParams }) => {
+  const [content, setContent] = useState<content>();
   const { id } = searchParams;
-  const data = getUserById(id);
+
+  useEffect(() => {
+    getUserById(id).then((d) => {
+      setContent(d.result.queryUserByEmail);
+      d.result.queryUserByEmail.tweet.map((i) => {
+        console.log(i.content);
+      });
+    });
+  }, []);
   return (
     <div>
-      {data.then((d) => (
-        <div>
-          <p>{d.result.queryUserByEmail.email}</p>
+      <h1 className="text-lg">UserProfile {content?.email}</h1>
+      {content?.tweet.map((i) => (
+        <div className="p-2 border-y border-black flex flex-col">
+          <p>{i.content}</p>
+          <p>by {content.email}</p>
         </div>
       ))}
     </div>
